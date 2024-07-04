@@ -1,4 +1,4 @@
-import React, {useCallback, useMemo, useState} from 'react';
+import React, {RefObject, useCallback, useMemo, useState} from 'react';
 import {View} from 'react-native';
 import {Divider} from './components/Divider';
 import {Header} from './components/Header';
@@ -9,8 +9,9 @@ import {HomeStyles} from './styles';
 import {Status, toDoMockedData} from './mockData';
 import {WeeklyCard} from './components/WeklyCard';
 import {OverallCard} from './components/OverallCard';
+import {ScrollView} from 'react-native-gesture-handler';
 
-const Today = () => {
+const Today = ({scrollViewRef}: {scrollViewRef: RefObject<ScrollView>}) => {
   const [toDos, setToDos] = useState(toDoMockedData);
   const [filterdData, setFilterdData] = useState('All');
 
@@ -61,6 +62,7 @@ const Today = () => {
         <ObjectiveCard
           {...objectiveCard}
           handleObjective={handleObjective}
+          scrollViewRef={scrollViewRef}
           key={index}
         />
       ))}
@@ -69,6 +71,7 @@ const Today = () => {
         <ObjectiveCard
           {...objectiveCard}
           handleObjective={handleObjective}
+          scrollViewRef={scrollViewRef}
           key={index}
         />
       ))}
@@ -77,6 +80,7 @@ const Today = () => {
         <ObjectiveCard
           {...objectiveCard}
           handleObjective={handleObjective}
+          scrollViewRef={scrollViewRef}
           key={index}
         />
       ))}
@@ -104,7 +108,11 @@ const Overall = () => {
   );
 };
 
-export const Home = () => {
+export const Home = ({
+  scrollViewRef,
+}: {
+  scrollViewRef: RefObject<ScrollView>;
+}) => {
   const [selected, setSelected] = useState('Today');
 
   const selectFilter = useCallback((label: string) => {
@@ -135,7 +143,7 @@ export const Home = () => {
     <View style={HomeStyles.container}>
       <Header />
       <SelectFilters selectedFilter={selected} selectFilter={selectFilter} />
-      <Today />
+      <Today scrollViewRef={scrollViewRef} />
     </View>
   );
 };

@@ -1,9 +1,10 @@
-import React, {useCallback, useState} from 'react';
+import React, {RefObject, useCallback, useState} from 'react';
 import {Text, View} from 'react-native';
 import {
   GestureEvent,
   PanGestureHandler,
   PanGestureHandlerEventPayload,
+  ScrollView,
 } from 'react-native-gesture-handler';
 import {colors} from '../../../styles/theme';
 import {Status, ToDo} from '../mockData';
@@ -11,6 +12,7 @@ import {ObjectiveCardStyles} from '../styles';
 
 interface ObjectiveCardProps extends ToDo {
   handleObjective: (id: string, status: Status) => void;
+  scrollViewRef: RefObject<ScrollView>;
 }
 
 export const ObjectiveCard = ({
@@ -20,6 +22,7 @@ export const ObjectiveCard = ({
   title,
   status,
   handleObjective,
+  scrollViewRef,
 }: ObjectiveCardProps) => {
   const [margin, setMargin] = useState({
     leftMargin: 0,
@@ -54,6 +57,7 @@ export const ObjectiveCard = ({
 
   return (
     <PanGestureHandler
+      simultaneousHandlers={scrollViewRef}
       onGestureEvent={onGestureEvent}
       onHandlerStateChange={onHandlerStateChange}>
       <View>
